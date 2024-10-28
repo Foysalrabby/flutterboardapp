@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845405382310",
+    "project_id": "fboardapp",
+    "storage_bucket": "fboardapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845405382310:android:866841ac2811b9669e7667",
+        "android_client_info": {
+          "package_name": "com.example.flutterboardapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwwe7zbWs6WcCMz7rArkEdSKYp3hWgJcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
