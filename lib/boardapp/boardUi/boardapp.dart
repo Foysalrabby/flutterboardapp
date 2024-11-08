@@ -14,6 +14,7 @@ class Extendboardapp extends State<Boardapp> {
   // FirebaseFirestore.instance.collection("fboard");
   TextEditingController? nameInputcontroller;
   TextEditingController? tittleInputcontroller;
+  TextEditingController? decrInputcontroller;
   var Firebasedb=FirebaseFirestore.instance.collection('fboard').snapshots();
 
 
@@ -24,6 +25,7 @@ class Extendboardapp extends State<Boardapp> {
     super.initState();
     nameInputcontroller = TextEditingController();
     tittleInputcontroller=TextEditingController();
+    decrInputcontroller=TextEditingController();
   }
   @override
   void dispose() {
@@ -31,6 +33,7 @@ class Extendboardapp extends State<Boardapp> {
     super.dispose();
     nameInputcontroller?.dispose();
     tittleInputcontroller?.dispose();
+    decrInputcontroller?.dispose();
   }
 
   @override
@@ -83,6 +86,15 @@ class Extendboardapp extends State<Boardapp> {
                 decoration: InputDecoration(labelText: "Title*"),
                 controller: tittleInputcontroller,
               ),
+              TextField(
+                autofocus: true,
+                autocorrect: true,
+                decoration: InputDecoration(
+                  labelText:"Describtion"
+
+                ),
+                controller:decrInputcontroller ,
+              )
             ],
           ),
           actions: [
@@ -95,10 +107,11 @@ class Extendboardapp extends State<Boardapp> {
             TextButton(
               onPressed: () async {
                 if (nameInputcontroller!.text.isNotEmpty &&
-                    tittleInputcontroller!.text.isNotEmpty) {
+                    tittleInputcontroller!.text.isNotEmpty && decrInputcontroller!.text.isNotEmpty) {
                   await FirebaseFirestore.instance.collection('fboard').add({
                     'name': nameInputcontroller!.text,
                     'title': tittleInputcontroller!.text,
+                    'describtin':decrInputcontroller!.text,
                     'timestamp': Timestamp.now(),
                   });
                   nameInputcontroller!.clear();
