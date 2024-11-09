@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterboardapp/boardapp/Ui/Custocardui.dart';
 
 class Boardapp extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class Extendboardapp extends State<Boardapp> {
                return ListView.builder(
                itemCount:documents.length,
                itemBuilder: (context,int index){
-              return Text( documents[index]['title']);
+              //return Text( documents[index]['title']);
              //     return Column(
              //       children: [
              //        Text(documents [index]['username']),
@@ -69,6 +70,7 @@ class Extendboardapp extends State<Boardapp> {
              //
              //       ],
              //     );
+                 return Customcard(snapshot:documents[index], index: index);
                }
                );
            },
