@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,12 +11,12 @@ class Boardapp extends StatefulWidget {
 }
 
 class Extendboardapp extends State<Boardapp> {
-  // final CollectionReference<Map<String, dynamic>> firestoreCollection =
-  // FirebaseFirestore.instance.collection("fboard");
+   final CollectionReference<Map<String, dynamic>> firestoreCollection =
+   FirebaseFirestore.instance.collection("fboard");
   TextEditingController? nameInputcontroller;
   TextEditingController? tittleInputcontroller;
   TextEditingController? decrInputcontroller;
-  var Firebasedb=FirebaseFirestore.instance.collection('fboard').snapshots();
+  //var Firebasedb=FirebaseFirestore.instance.collection('fboard').snapshots();
 
 
 
@@ -50,7 +51,7 @@ class Extendboardapp extends State<Boardapp> {
        ),
 
        body:StreamBuilder<QuerySnapshot>(
-              stream: Firebasedb,
+              stream: firestoreCollection.snapshots(),
             builder: (context,snapshot){
                  if(!snapshot.hasData){
                    return CircularProgressIndicator();
@@ -59,7 +60,15 @@ class Extendboardapp extends State<Boardapp> {
                return ListView.builder(
                itemCount:documents.length,
                itemBuilder: (context,int index){
-             return Text(documents [index]['tittle']);
+              return Text( documents[index]['title']);
+             //     return Column(
+             //       children: [
+             //        Text(documents [index]['username']),
+             //         Text(documents [index]['describtin']),
+             //         Text(documents [index]['title'])
+             //
+             //       ],
+             //     );
                }
                );
            },
@@ -74,28 +83,28 @@ class Extendboardapp extends State<Boardapp> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Enter your Information"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min, // Fit dialog to content size
-            children: [
-              TextField(
-                autofocus: true,
-                decoration: InputDecoration(labelText: "Name*"),
-                controller: nameInputcontroller,
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: "Title*"),
-                controller: tittleInputcontroller,
-              ),
-              TextField(
-                autofocus: true,
-                autocorrect: true,
-                decoration: InputDecoration(
-                  labelText:"Describtion"
-
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max, // Fit dialog to content size
+              children: [
+                TextField(
+                  autofocus: true,
+                  decoration: InputDecoration(labelText: "Name*"),
+                  controller: nameInputcontroller,
                 ),
-                controller:decrInputcontroller ,
-              )
-            ],
+                TextField(
+                  decoration: InputDecoration(labelText: "Title*"),
+                  controller: tittleInputcontroller,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText:"Describtion"
+
+                  ),
+                  controller:decrInputcontroller ,
+                )
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -107,16 +116,22 @@ class Extendboardapp extends State<Boardapp> {
             TextButton(
               onPressed: () async {
                 if (nameInputcontroller!.text.isNotEmpty &&
-                    tittleInputcontroller!.text.isNotEmpty && decrInputcontroller!.text.isNotEmpty) {
+                    tittleInputcontroller!.text.isNotEmpty &&
+                    decrInputcontroller!.text.isNotEmpty) {
                   await FirebaseFirestore.instance.collection('fboard').add({
-                    'name': nameInputcontroller!.text,
+                    'username': nameInputcontroller!.text,
                     'title': tittleInputcontroller!.text,
-                    'describtin':decrInputcontroller!.text,
+                    'describtin': decrInputcontroller!.text,
                     'timestamp': Timestamp.now(),
+                  }).then((response) {
+                    print("Document ID: ${response.id}");
+                    Navigator.of(context).pop();
+                    nameInputcontroller!.clear();
+                    tittleInputcontroller!.clear();
+                    decrInputcontroller!.clear();
+                  }).catchError((error) {
+                    print("Error saving data: $error");
                   });
-                  nameInputcontroller!.clear();
-                  tittleInputcontroller!.clear();
-                  Navigator.of(context).pop(); // Close dialog after saving
                 }
               },
               child: Text("Save"),
