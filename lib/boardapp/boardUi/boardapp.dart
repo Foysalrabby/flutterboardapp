@@ -70,7 +70,13 @@ class Extendboardapp extends State<Boardapp> {
              //
              //       ],
              //     );
-                 return Customcard(snapshot:documents[index], index: index);
+                 return Customcard(
+                     snapshot:documents[index],
+                     index: index,
+                    ondelete:()async{
+                       await firestoreCollection.doc(documents[index].id).delete();
+                    }
+                 );
                }
                );
            },

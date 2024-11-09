@@ -7,12 +7,14 @@ import 'package:flutterboardapp/boardapp/Util/Timeformat.dart';
 class Customcard extends StatelessWidget{
   final DocumentSnapshot snapshot;
   final int index;
+  final VoidCallback ondelete;
 
  // const Customcard({super.key, required this.snapshot, required this.index});
   const Customcard({
     Key? key,
     required this.snapshot,
     required this.index,
+    required this.ondelete
   }) : super(key: key);
   
   @override
@@ -20,7 +22,7 @@ class Customcard extends StatelessWidget{
     Timestamp timestamp=snapshot['timestamp'];
    String datetimeformat= TimeFormat.formatTimestamp(timestamp);
     return Container(
-      height: 150,
+      height: 170,
       child: Card(
         elevation: 10,
         child: Column(
@@ -34,13 +36,28 @@ class Customcard extends StatelessWidget{
                 child: Text(snapshot['title'].toString()[0]),
               ),
             ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(snapshot['username']),
-                  Text(" By ${datetimeformat}"),
-                ],
-              )
+              Padding(
+                padding:EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(snapshot['username']),
+                    Text(" By ${datetimeformat}"),
+                  ],
+                ),
+              ),
+            Padding(
+                padding: EdgeInsets.only(right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(onPressed: (){
+
+                }, icon:Icon(Icons.edit)),
+                IconButton(onPressed:ondelete, icon:Icon(Icons.delete))
+              ],
+            ) )
+
           ],
         ),
       ),
