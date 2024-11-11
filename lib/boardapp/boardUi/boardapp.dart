@@ -75,7 +75,10 @@ class Extendboardapp extends State<Boardapp> {
                      index: index,
                     ondelete:()async{
                        await firestoreCollection.doc(documents[index].id).delete();
-                    }
+                    },
+                     onUpdate:(updatedData)async{
+                       await firestoreCollection.doc(documents[index].id).update(updatedData);
+                     }
                  );
                }
                );
